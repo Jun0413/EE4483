@@ -31,6 +31,25 @@ class txntable:
 	def clear(self):
 		self.__instance.table.clear()
 
-	def buildexample(self):
-		self.insert(set(["A", "C"]))
-		self.insert(set(["A", "B"]))
+	def getitems(self):
+		items = set()
+		for key in self.__instance.table.keys():
+			items.update(self.__instance.table[key])
+		return items
+
+	def getsupcnt(self, itemset):
+		supcnt = 0
+		if itemset and len(itemset) > 0:
+			for key in self.__instance.table.keys():
+				if self.__instance.table[key].issuperset(itemset):
+					supcnt += 1
+		return supcnt
+
+
+	def example(self):
+		transactions = txntable()
+		transactions.insert(set(["A", "C", "D"]))
+		transactions.insert(set(["B", "C", "E"]))
+		transactions.insert(set(["A", "B", "C", "E"]))
+		transactions.insert(set(["B", "E"]))
+		return transactions
