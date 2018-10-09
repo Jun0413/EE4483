@@ -1,4 +1,5 @@
 from uuid import uuid1
+from copy import deepcopy
 
 class txntable:
 
@@ -44,7 +45,22 @@ class txntable:
 				if self.__instance.table[key].issuperset(itemset):
 					supcnt += 1
 		return supcnt
-
+	
+	def get_item_supcnt(self, minsup=0):
+		item_supcnt = dict()
+		for key in self.__instance.table.keys():
+			for item in self.__instance.table[key]:
+				if item in item_supcnt.keys():
+					item_supcnt[item] += 1
+				else:
+					item_supcnt[item] = 1
+		for item in item_supcnt.keys():
+			if item_supcnt[item] < minsup:
+				del(item_supcnt[item])
+		return item_supcnt
+	
+	def get_table_copy(self):
+		return deepcopy(self.__instance.table)
 
 	def example(self):
 		transactions = txntable()
